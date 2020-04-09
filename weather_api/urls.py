@@ -20,12 +20,10 @@ from weather import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', views.HomeListView.as_view(), name='home'),
-    path('city/<slug:city_name>', views.CityView.as_view(), name='city'),
+    path('home/', views.ApiView.as_view(), name='home'),
+    path('city/<slug:city_name>', views.get_city_view, name='city'),
     path('delete/city/<slug:city_name>', views.delete_city, name='city_delete'),
     path('path/city/<slug:city_name>', views.path_city, name='city_path'),
     path('cities/max_temperatures', views.cities_max_temperatures, name='cities'),
     path('city/cep/<slug:cep>', views.cep_view, name='cep_view'),
-
-
 ]

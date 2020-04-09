@@ -2,32 +2,95 @@
 
 {% block content %}
 <h2>Temperature sniffer</h2>
+
 <b>
-  {{cities}}
 
-{% if temperatures %}
-<h3>Top 3 highest temperature cities</h3>
-<ul>
-  {% for t in temperatures %}
-  <li>
-    Temperature: {{ t.temperature }}</a> Date:{{t.date}} </a> City:{{t.city.id}}{{t.city.city_name}}
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
+  <ul>
+    <div class="alert alert-success" role="alert">
+      <p style="margin: 0;">GET<a class="nav-link" href="http://127.0.0.1:8000/city/betim">city/curitiba</a></p>
+    </div>
+    <div class="alert alert-success" role="alert">
+      <p style="margin: 0;">POST<a class="nav-link" href="http://127.0.0.1:8000/delete/city/betim">delete/city/city_name</a></p>
+    </div>
+    <div class="alert alert-success" role="alert">
+      <p style="margin: 0;">PATH<a class="nav-link" href="http://127.0.0.1:8000/path/city/betim">path/city/city_name</a></p>
+    </div>
+    <div class="alert alert-success" role="alert">
+      <p style="margin: 0;">GET<a class="nav-link" href="http://127.0.0.1:8000/cities/max_temperatures">cities/max_temperatures</a></p>
+    </div>
+    <div class="alert alert-success" role="alert">
+      <p style="margin: 0;">GET<a class="nav-link" href="http://127.0.0.1:8000/city/cep/04120080">city/cep/cep</a></p>
+    </div>
 
-{% if book_list %}
-<ul>
-  {% for book in book_list %}
-  <li>
+    <div class="alert alert-warning" role="alert">
 
-    Temperature: {{ book.temperature }}</a> Date:{{book.date}} </a> City:{{book.city.id}}{{book.city.city_name}}
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>There are no weathers in the database.</p>
-{% endif %}
-{% endif %}
+      <p style="margin: 0;">
 
-{% endblock %}
+
+
+      <h3>Cities</h3>
+            {% if cities %}
+
+      <ul>
+        {% for t in cities %}
+        <li>
+          {{t.city_name}}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>There are no weathers in the database.</p>
+      {% endif %}
+
+      </p>
+    </div>
+    <div class="alert alert-warning" role="alert">
+
+      <p style="margin: 0;">
+
+
+
+      <h3>Top 3 highest temperature cities</h3>
+            {% if cities_max_temperatures %}
+
+      <ul>
+        {% for t in cities_max_temperatures %}
+        <li>
+          City:{{t.city.city_name}}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>There are no weathers in the database.</p>
+      {% endif %}
+      </p>
+    </div>
+
+    <div class="alert alert-warning" role="alert">
+
+      <p style="margin: 0;">
+
+        {% if latest_temperatures %}
+      <h3>Top 5 get temperature cities</h3>
+      <ul>
+        {% for t in latest_temperatures %}
+        <li>
+          Temperature: {{ t.temperature }}</a> Date:{{t.date}} </a> City:{{t.city.id}}{{t.city.city_name}}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p>There are no weathers in the database.</p>
+      {% endif %}
+
+
+      </p>
+    </div>
+
+  </ul>
+
+
+<!--  {{temperatures}}-->
+
+
+  {% endblock %}

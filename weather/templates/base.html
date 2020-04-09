@@ -29,7 +29,7 @@
                 </li>
 
                 <li class="nav-item ml-5">
-                    <a class="nav-link" href="#">Gerar CNAB</a>
+                    <a class="nav-link" href="{% url 'home' %}">APIs RESTful</a>
                 </li>
                 <li class="nav-item ml-5 dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarHistoricoDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Histórico</a>
@@ -40,12 +40,13 @@
         </nav>
         <div class="container">
             {% block content %}
+            <h2>Temperature sniffer</h2>
+
             {% endblock %}
         </div>
         <div class="footer" style="position: absolute; bottom: 0; left: 0; z-index:1; width: 100%; height: 50px; background-color: #343a40; color: white;">
             <div class="container-fluid" style="height: 100%; width:70%;">
                 <div class="d-flex justify-content-between align-middle" style="height: 100%;">
-                    <span class="align-middle mt-2">Gestão de CNAB's</span>
                     <span class="align-middle mt-2">© 2019 Copyright: Barbara Chesman</span>
                 </div>
             </div>
