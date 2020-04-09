@@ -22,6 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.HomeListView.as_view(), name='home'),
     path('city/<slug:city_name>', views.CityView.as_view(), name='city'),
-    path('delete/city/<slug:city_name>', views.DeleteCity.as_view(), name='city_delete'),
-    path('path/city/<slug:city_name>', views.PathCity.as_view(), name='city_path'),
+    path('delete/city/<slug:city_name>', views.delete_city, name='city_delete'),
+    path('path/city/<slug:city_name>', views.path_city, name='city_path'),
+    path('cities/max_temperatures', views.cities_max_temperatures, name='cities'),
+    path('city/cep/<slug:cep>', views.cep_view, name='cep_view'),
+
+
 ]

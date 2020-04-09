@@ -1,16 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>GEO API</h2>
-  {% if book_list %}
-  <ul>
-    {% for book in book_list %}
-      <li>
-        Temperature: {{ book.temperature }}</a> Date:{{book.date}} </a> City:{{book.city.id}}{{book.city.city_name}}
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-    <p>There are no weathers in the database.</p>
-  {% endif %}
+<h2>Temperature sniffer</h2>
+<b>
+  {{cities}}
+
+{% if temperatures %}
+<h3>Top 3 highest temperature cities</h3>
+<ul>
+  {% for t in temperatures %}
+  <li>
+    Temperature: {{ t.temperature }}</a> Date:{{t.date}} </a> City:{{t.city.id}}{{t.city.city_name}}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+
+{% if book_list %}
+<ul>
+  {% for book in book_list %}
+  <li>
+
+    Temperature: {{ book.temperature }}</a> Date:{{book.date}} </a> City:{{book.city.id}}{{book.city.city_name}}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>There are no weathers in the database.</p>
+{% endif %}
+{% endif %}
+
 {% endblock %}

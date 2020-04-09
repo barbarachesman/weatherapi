@@ -1,38 +1,14 @@
 from datetime import datetime
 
+from django.http import HttpResponse
 from django.shortcuts import render
 import requests
+from django.template.defaultfilters import lower
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, DeleteView, ListView
 
 from weather.models import City, Temperatures
-
-
-def home(request):
-    response = requests.get('https://api.hgbrasil.com/weather?array_limit=2&fields=only_results,temp,city_name,results,tem,date,date&key=65b97445&city_name=Campinas,SP')
-    weather = response.json()
-    return render(request, 'weather_api/templates/home.html', {
-        'temperature': weather['temp'],
-        'date': weather['date'],
-        'city': weather['city_name']
-    })
-
-
-class HomeView(TemplateView):
-    template_name = 'home.html'
-
-    def get_context_data(self, **kwargs):
-        city_name = self.kwargs.get('city_name')
-        print(city_name)
-        response = requests.get(
-            'https://api.hgbrasil.com/weather?array_limit=2&fields=only_results,temp,city_name,results,tem,date,date&key=65b97445&city_name=Campinas,SP')
-        context = response.json()
-        print(context)
-        # context['temperature'] = context[0]
-        # context['date'] = context[1]
-        # context['city'] = context[2]
-        return context
 
 
 class CityView(TemplateView):
@@ -41,77 +17,47 @@ class CityView(TemplateView):
     def get_context_data(self, **kwargs):
         city_name = self.kwargs.get('city_name')
         url = 'https://api.hgbrasil.com/weather?array_limit=2&fields=only_results,temp,city_name,results,tem,date,time&key=828262e3&city_name=' + city_name
-        print(url)
         response = requests.get(url)
         context = response.json()
-        print(response.json())
-        new_city, created = City.objects.get_or_create(city_name=city_name)
-        print(new_city, created)
-        # if created:
+        new_city, created = City.objects.get_or_create(city_name=lower(city_name))
         datetime_weather = context['date'] + " " + context['time']
         datetime_weather_formatted = datetime.strptime(datetime_weather, '%d/%m/%Y %H:%M').strftime("%Y-%m-%d %H:%M:%S")
 
-        teste = Temperatures.objects.create(
+        a = Temperatures.objects.create(
                 city=new_city,
                 date=datetime_weather_formatted,
                 temperature=context['temp']
             )
-        print(teste)
-        # if created:
-        #     print('criou')
-
         return context
-        # else:
-        #     print('ja tinha')
-        #
-        #     return response.json()
-        #
-        #
 
 
-class DeleteCity(DeleteView):
-    model = City
-
-    success_url = reverse_lazy('home')  # This is where this view will
-
-    def delete(self, request, *args, **kwargs):
-        city_name = self.kwargs.get('city_name')
-        deletea = City.objects.get(city_name=city_name).delete()
-        return deletea
-    # redirect the user
+def delete_city(request, city_name):
+    City.objects.filter(city_name=lower(city_name)).delete()
+    return HttpResponse("Deleted!")
 
 
-def delete(city_name):
-    city = City.objects.get(city_name=city_name)
-    a = Temperatures.objects.get(city=city).delete()
-    a.save()
+def path_city(request, city_name):
+    Temperatures.objects.filter(city__city_name=lower(city_name)).delete()
+    return HttpResponse("Deleted!")
 
 
-
-class PathCity(DeleteView):
-    model = City
-    template_name = 'home.html'
-    slug_field = 'city_name'
-    slug_url_kwarg = 'city_name'
-
-    def delete(self, request, *args, **kwargs):
-        city_name = self.kwargs.get('city_name')
-        city = City.objects.get(city_name=city_name)
-        a = Temperatures.objects.get(city=city).delete()
-        a.save()
+def cities_max_temperatures(request):
+    temperatures = Temperatures.objects.order_by('-temperature')[:3]
+    return render(request, 'home.html', {
+            'temperatures': temperatures
+        })
 
 
-class CEPView(TemplateView):
-    template_name = 'home.html'
+def cep_view(request, cep):
+    url = 'https://viacep.com.br/ws/'+cep+'/json/'
+    response = requests.get(url)
+    data_cep = response.json()
+    city_name = data_cep['localidade']
+    City.objects.get_or_create(city_name=lower(city_name))
 
-    def get_context_data(self, **kwargs):
-        response = requests.get('https://viacep.com.br/ws/01001000/json/')
-        context = response
-        print(context)
-        context['temperature'] = context[0]
-        # context['date'] = context[1]
-        # context['city'] = context[2]
-        return context
+    return render(request, 'home.html', {
+            'cities': City.objects.all()
+        })
 
 
 class HomeListView(ListView):
@@ -119,3 +65,4 @@ class HomeListView(ListView):
     queryset = Temperatures.objects.all()
     context_object_name = 'book_list'
     template_name = 'home.html'
+
