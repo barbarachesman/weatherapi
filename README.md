@@ -6,17 +6,11 @@ make runserver
 ```
 ....
 
-Eventos - DJANGO
+Weather API - DJANGO
 ===================
 
-O projeto [**Sistema Eventos**](http://www.eventos.fabricadesoftware.ifc.edu.br), para a PROPI. Desenvolvido por alunos do curso de [**Bacharelado em Sistemas de Informação**](http://bsi.araquari.ifc.edu.br/) na [**Fabrica de Software**](http://fabricadesoftware.ifc.edu.br/)do [**Instituto Federal Catarinense**](http://araquari.ifc.edu.br/).
+Solução para monitoramento da variação de temperatura de cidades. 
 
-
-
-Online:
--------------
-
-> - WebApp Hosted: [**Sistema Eventos**](http://eventos.fabricadesoftware.ifc.edu.br) (http://eventos.fabricadesoftware.ifc.edu.br)
 
 Sequencia para a Monitor de variação de temperatura:
 -------------
