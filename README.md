@@ -23,4 +23,7 @@ Instalação:
 > - ```$ python manage.py migrate```
 > - ```$ python manage.py runserver```
 > - Agora é só acessar via browser ```http://127.0.0.1:8000/```.
-://googleweblight.com/?lite_url=http://fernandofreitasalves.com/tarefas-assincronas-com-django-e-celery/&ei=7zwerLD9&lc=pt-BR&s=1&m=370&host=www.google.com.br&ts=1504897919&re=1&sig=ANTY_L1er7bQsH3V7v8lITAtitJrKqJHbg)
+
+![Alt text](weather/templates/temp1.PNG?raw=true "Title")
+![Alt text](weather/templates/temp2.PNG?raw=true "Title")
+
