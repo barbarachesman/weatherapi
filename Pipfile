@@ -18,14 +18,9 @@ python-decouple = "*"
 dj-database-url = "*"
 dj-static = "*"
 gunicorn = "*"
-celery = {extras = ["sqs"],version = "*"}
-django-celery-results = "*"
 django-polymorphic = "*"
 django-postgres-copy = "*"
 importlib-metadata = "*"
-boto3 = "*"
-pycurl = "*"
-django-s3-folder-storage = "*"
 
 [requires]
 python_version = "3.7"

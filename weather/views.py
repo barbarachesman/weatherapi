@@ -1,11 +1,8 @@
 from datetime import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import render
 import requests
 from django.template.defaultfilters import lower
-from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import TemplateView, DeleteView, ListView
 
 from weather.models import City, Temperatures
@@ -31,20 +28,24 @@ class ApiView(TemplateView):
 
 
 def get_city_view(request, city_name):
-    url = 'https://api.hgbrasil.com/weather?array_limit=2&fields=only_results,temp,city_name,results,tem,date,time&key=3a97c982&city_name=' + city_name
+    url = 'https://api.hgbrasil.com/weather?array_limit=2&fields=only_results,temp,city_name,results,tem,date,time&key=6698769b&city_name=' + city_name
+
     response = requests.get(url)
-    context = response.json()
-    new_city, created = City.objects.get_or_create(city_name=lower(city_name))
-    datetime_weather = context['date'] + " " + context['time']
-    datetime_weather_formatted = datetime.strptime(datetime_weather, '%d/%m/%Y %H:%M').strftime("%Y-%m-%d %H:%M:%S")
+    if response:
+        context = response.json()
+        new_city, created = City.objects.get_or_create(city_name=lower(city_name))
+        datetime_weather = context['date'] + " " + context['time']
+        datetime_weather_formatted = datetime.strptime(datetime_weather, '%d/%m/%Y %H:%M').strftime("%Y-%m-%d %H:%M:%S")
 
-    Temperatures.objects.create(
-        city=new_city,
-        date=datetime_weather_formatted,
-        temperature=context['temp']
-    )
+        Temperatures.objects.create(
+            city=new_city,
+            date=datetime_weather_formatted,
+            temperature=context['temp']
+        )
 
-    return HttpResponse("Add!")
+        return HttpResponse("Add!")
+    else:
+        return HttpResponse("Chave API Bloqueada!")
 
 
 def delete_city(request, city_name):
@@ -69,6 +70,4 @@ def cep_view(request, cep):
     city_name = data_cep['localidade']
     City.objects.get_or_create(city_name=lower(city_name))
 
-    return render(request, 'home.html', {
-            'cities': City.objects.all()
-        })
+    return HttpResponse("Created city!")
